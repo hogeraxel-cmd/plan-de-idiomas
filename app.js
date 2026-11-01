@@ -60,7 +60,7 @@
     { id: 'anki-instalar', g: 'Anki en el PC', t: 'Instala Anki y crea tu cuenta', d: 'Gratis para Windows. Ábrelo y presiona Sincronizar para crear o iniciar tu cuenta de AnkiWeb.', link: { u: 'https://apps.ankiweb.net/', l: 'apps.ankiweb.net' } },
     { id: 'anki-importar', g: 'Anki en el PC', t: 'Importa el mazo inicial', d: 'Doble clic en «Plan de idiomas - mazo inicial.apkg», o Archivo → Importar.' },
     { id: 'lim-aleman', g: 'Límites de tarjetas nuevas', t: 'Alemán: 5 por día', d: 'Mazos → engranaje de «Alemán» → Opciones → Límites diarios → pestaña «Este mazo» → 5 → Guardar.' },
-    { id: 'lim-arabe', g: 'Límites de tarjetas nuevas', t: 'Árabe: 5 por día', d: 'Lo mismo en el mazo «Árabe». Ese límite ya cubre «1 Alfabeto» y «2 Frases egipcias».' },
+    { id: 'lim-arabe', g: 'Límites de tarjetas nuevas', t: 'Árabe: 4 por día', d: 'Lo mismo en el mazo «Árabe», con 4: coincide con las 4 letras de cada lección del alfabeto. La lección de árabe te avisa cuándo cambiarlo.' },
     { id: 'lim-ingles', g: 'Límites de tarjetas nuevas', t: 'Inglés: 5 por día', d: 'Lo mismo en el mazo «Inglés».' },
     { id: 'lim-plan', g: 'Límites de tarjetas nuevas', t: 'Plan de idiomas: 15 por día', d: 'Lo mismo en el mazo principal, con 15: es el tope cuando estudias todo junto.' },
     { id: 'anki-celular', g: 'Celular y acceso', t: 'Sincroniza y abre Anki en el celular', d: 'Presiona Sincronizar en el PC. En el celular entra a ankiweb.net con la misma cuenta (en Android también sirve AnkiDroid, gratis).', link: { u: 'https://ankiweb.net/', l: 'ankiweb.net' } },
@@ -213,6 +213,10 @@
   // ---------- helpers ----------
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
   function titleHTML(t) { return esc(t).replace(/\[([^\]]+)\]/g, '<span class="ara" lang="ar" dir="rtl">$1</span>'); }
+  function guideHTML(g) {
+    if (!g) return '';
+    return '<div class="lg">' + g.map(function (l) { return '<div class="lc"><b lang="ar">' + esc(l[0]) + '</b><span><strong>' + esc(l[1]) + '</strong>' + esc(l[2]) + '</span></div>'; }).join('') + '</div>';
+  }
   function plain(t) { return String(t).replace(/[\[\]]/g, ''); }
   function trackOf(st) { return C.STREAMS[st].track; }
   function langOfSt(st) { return C.langOf(trackOf(st)); }
@@ -297,7 +301,7 @@
     h.push('<div class="tbody"><div class="tline"><span class="chip">' + esc(trackLabel(trackOf(o.st))) + '</span>');
     (o.chips || []).forEach(function (c) { h.push('<span class="chip ' + (c.cls || '') + '">' + esc(c.t) + '</span>'); });
     h.push('</div><label class="tt"' + (o.mode === 'readonly' ? '' : ' for="' + id + '"') + '>' + titleHTML(o.c.t) + '</label>');
-    if (o.mode !== 'done') h.push('<p class="td">' + esc(o.c.d) + (o.c.link ? ' <a href="' + esc(o.c.link.u) + '" target="_blank" rel="noopener">' + esc(o.c.link.l) + '</a>' : '') + '</p>');
+    if (o.mode !== 'done') h.push('<p class="td">' + titleHTML(o.c.d) + (o.c.link ? ' <a href="' + esc(o.c.link.u) + '" target="_blank" rel="noopener">' + esc(o.c.link.l) + '</a>' : '') + '</p>' + guideHTML(o.c.g));
     if (o.next) h.push('<p class="lock">' + LOCK + '<span>Luego: ' + titleHTML(o.next) + '. Se desbloquea al completar esta.</span></p>');
     h.push('</div><span class="min">' + o.min + ' min</span></li>');
     return h.join('');

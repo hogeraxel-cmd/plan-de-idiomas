@@ -6,54 +6,117 @@
 
   var LINKS = {
     lt: { u: 'https://www.languagetransfer.org/courses', l: 'languagetransfer.org' },
-    dw: { u: 'https://learngerman.dw.com/', l: 'learngerman.dw.com' },
     anki: { u: 'https://ankiweb.net/', l: 'ankiweb.net' },
-    tandem: { u: 'https://www.tandem.net/', l: 'tandem.net' },
     efset: { u: 'https://efset.org/ef-set-50', l: 'efset.org' }
   };
 
   // ---------- Árabe ----------
-  var AR_ALF = [
-    ['Alfabeto 1: [ا ب ت ث]', 'LingoDeer Árabe, unidad de alfabeto. Escribe cada letra 10 veces en sus formas aislada, inicial, media y final.'],
-    ['Alfabeto 2: [ج ح خ]', 'Distingue ح (h raspada de garganta) de خ (como la j española). Repítelas en voz alta.'],
-    ['Alfabeto 3: [د ذ ر ز و]', 'Estas letras no se unen a la letra que sigue. Copia 5 palabras que las usen.'],
-    ['Repaso: lee sílabas', 'Repasa en LingoDeer las letras vistas y lee 10 sílabas en voz alta.'],
-    ['Alfabeto 4: [س ش ص ض]', 'ص y ض son las versiones “gruesas” de س y د: la lengua baja y el sonido se oscurece.'],
-    ['Alfabeto 5: [ط ظ ع غ]', 'Practica ع con un video de pronunciación: es el sonido más nuevo para ti.'],
-    ['Alfabeto 6: [ف ق ك ل]', 'En egipcio, ق suele sonar como un corte en la garganta.'],
-    ['Alfabeto 7: [م ن ه ي]', 'Con estas completas las 28 letras. Escribe el alfabeto completo una vez.'],
-    ['Vocales cortas y sukun', 'Fatha, kasra, damma y sukun. Lee 15 palabras con vocales marcadas.'],
-    ['Ta marbuta, hamza y tu nombre', 'Escribe tu nombre en árabe y 10 palabras de estas semanas sin mirar.']
+  // Semana 1: el alfabeto, 4 letras por lección, en el mismo orden que el mazo «Árabe» de Anki.
+  var LETRAS = [
+    [['ا', 'alif', 'una «a» larga; también sirve de soporte para otras vocales'], ['ب', 'ba', 'b'], ['ت', 'ta', 't'], ['ث', 'za', 'como la «z» de España o la «th» de «think»']],
+    [['ج', 'yim', '«y» fuerte (en Egipto suena como la «g» de «gato»)'], ['ح', 'ja', 'una «h» echando aire fuerte desde la garganta, sin raspar'], ['خ', 'jaa', 'la «j» española de «jamón», raspando'], ['د', 'dal', 'd']],
+    [['ذ', 'zal', 'como la «th» de «this» (lengua entre los dientes)'], ['ر', 'ra', 'r de «pero»'], ['ز', 'zay', 'una «z» que zumba, como una abeja: zzz'], ['س', 'sin', 's']],
+    [['ش', 'shin', '«sh» de «show»'], ['ص', 'sad', 'una «s» gruesa: lengua abajo, sonido más oscuro'], ['ض', 'dad', 'una «d» gruesa'], ['ط', 'ta gruesa', 'una «t» gruesa']],
+    [['ظ', 'za gruesa', 'una «z» de «this» gruesa'], ['ع', 'ain', 'apretando la garganta, como al levantar algo pesado; no existe en español'], ['غ', 'gain', 'una «g» gargareada, como la «r» francesa'], ['ف', 'fa', 'f']],
+    [['ق', 'qaf', 'una «k» desde el fondo de la garganta (en Egipto, un corte de voz)'], ['ك', 'kaf', 'k'], ['ل', 'lam', 'l'], ['م', 'mim', 'm']],
+    [['ن', 'nun', 'n'], ['ه', 'ha', 'una «h» suave, como en «hello»'], ['و', 'uau', '«w», o una «u» larga'], ['ي', 'ya', '«y», o una «i» larga']]
+  ];
+  var TODAS = [].concat.apply([], LETRAS);
+  function cortas(g) { return '[' + g.map(function (l) { return l[0]; }).join(' ') + ']'; }
+
+  // Semana 2: aprender a leer. [t, lección, cuaderno]
+  var AR_LEER = [
+    ['Vocales cortas: fatha, kasra y damma',
+      'Son rayitas sobre o bajo la letra: fatha ( َ ) arriba = a; kasra ( ِ ) abajo = i; damma ( ُ ) arriba = u. Haz en LingoDeer la lección de vocales cortas, justo después del alfabeto.',
+      'Lee en voz alta: [بَ] ba, [بِ] bi, [بُ] bu, [تَ] ta, [تِ] ti, [تُ] tu. Escribe 2 letras de la semana pasada con cada vocal.'],
+    ['Vocales largas: [ا و ي]',
+      '[ا] alarga la «a», [ي] alarga la «i» y [و] alarga la «u». Haz en LingoDeer la lección de vocales largas.',
+      'Lee: [بَا] baa, [بِي] bii, [بُو] buu, [نَا] naa, [لِي] lii. Escribe 5 sílabas largas inventadas.'],
+    ['Cómo se unen las letras',
+      'Casi todas las letras cambian un poco según vayan al inicio, en medio o al final. Seis no se unen con la siguiente: [ا د ذ ر ز و]. Haz en LingoDeer la lección de formas de las letras.',
+      'Copia y lee: [بَاب] baab (puerta), [كَلْب] kalb (perro), [وَرْد] ward (rosas). Marca con un círculo las letras que no se unen.'],
+    ['Sukun y shadda',
+      'Sukun ( ْ ) = la letra va sin vocal. Shadda ( ّ ) = la letra se pronuncia doble. Sigue en LingoDeer con la próxima lección.',
+      'Lee: [بِنْت] bint (niña), [أُمّ] umm (mamá), [قِطّ] qitt (gato). Escribe cada palabra 3 veces.'],
+    ['[ة] (ta marbuta) y [ال] (al-)',
+      '[ة] va al final de muchas palabras femeninas y suena «a». [ال] al inicio significa «el/la». Sigue en LingoDeer con la próxima lección.',
+      'Lee: [مَدْرَسَة] madrasa (colegio), [الْبَيْت] al-bayt (la casa). Escribe tu nombre: [أَكْسِل] Axel.'],
+    ['Autoexamen de lectura',
+      'Sin LingoDeer hoy: abre tus tarjetas de Anki del alfabeto en el navegador de mazos y lee en voz alta todas las letras con sus 3 vocales cortas (ba, bi, bu…).',
+      'Escribe 10 palabras de esta semana sin mirar. Revisa con tus apuntes y repite 3 veces las que fallaste.'],
+    ['Primeros saludos',
+      'Ya puedes leer. Haz en LingoDeer la primera lección después del alfabeto (saludos). No importa ir lento: lee cada palabra en voz alta.',
+      'Escribe y lee: [مَرْحَبًا] marhaban (hola), [شُكْرًا] shukran (gracias), [أَنَا أَكْسِل] ana Axel (soy Axel).']
   ];
   var AR_TEMAS = [
-    'pronombres personales (ana, inta, inti…)', 'oraciones sin verbo “ser”', 'masculino y femenino', 'el artículo al- y las letras solares',
+    'pronombres personales (ana, inta, inti…)', 'oraciones sin verbo «ser»', 'masculino y femenino', 'el artículo al- y las letras solares',
     'posesivos (mi, tu, su)', 'números del 1 al 10', 'la familia', 'comida y bebida', 'números del 11 al 100 y precios',
     'adjetivos y concordancia', 'lugares de la ciudad', 'preguntas: qué, dónde, cuándo, cómo', 'la hora y los días de la semana',
     'verbos en presente (1)', 'verbos en presente (2)', 'negación', 'el trabajo y las profesiones', 'rutina diaria',
-    'colores y ropa', 'el plural', 'verbos en pasado (1)', 'verbos en pasado (2)', 'planes con “voy a”', 'viajes y transporte',
+    'colores y ropa', 'el plural', 'verbos en pasado (1)', 'verbos en pasado (2)', 'planes con «voy a»', 'viajes y transporte',
     'el cuerpo y la salud', 'comparativos', 'el clima', 'gustos y opiniones'
   ];
+  var NL = LETRAS.length, NR = AR_LEER.length; // 7 + 7 lecciones antes de LingoDeer libre
+  function arLec(n) {
+    if (n <= NL) {
+      var g = LETRAS[n - 1], pre = n === 1 ? 'Primero, en Anki: engranaje del mazo «Árabe» → Opciones → Nuevas tarjetas/día → 4 → Guardar. Así Anki te muestra cada día justo las 4 letras de la lección. ' : '';
+      var o = T('Aprende 4 letras: ' + cortas(g), pre + 'Mira la guía de abajo: letra, nombre y cómo suena. Luego abre LingoDeer → Árabe → alfabeto y haz la lección donde aparecen estas letras: escucha cada audio y repítelo en voz alta. Si LingoDeer las agrupa distinto, avanza hasta haberlas visto todas.');
+      o.g = g; return o;
+    }
+    if (n <= NL + NR) {
+      var r = AR_LEER[n - NL - 1];
+      var pre2 = n === NL + 1 ? 'Primero, en Anki: mazo «Árabe» → Opciones → Nuevas tarjetas/día → 0. Ya viste las 28 letras y así no aparecen frases que aún no estudias; las letras se siguen repasando solas. ' : '';
+      return T(r[0], pre2 + r[1]);
+    }
+    var k = n - NL - NR;
+    var pre3 = k === 1 ? 'Primero, en Anki: mazo «Árabe» → Opciones → Nuevas tarjetas/día → 3. Desde hoy entran frases egipcias simples; ya puedes leerlas. ' : '';
+    if (k % 6 === 0) return T('Repaso de la semana', 'Rehaz en LingoDeer las últimas lecciones y lee en voz alta las palabras de tu cuaderno.');
+    var tema = AR_TEMAS[Math.min(Math.floor((k - 1) * AR_TEMAS.length / 140), AR_TEMAS.length - 1)];
+    return T('LingoDeer Árabe: siguiente lección', pre3 + 'Haz la siguiente lección del curso. Tema de estas semanas: ' + tema + '.');
+  }
+  function arEsc(n) {
+    if (n <= NL) {
+      var g = LETRAS[n - 1];
+      if (n === NL) { var o = T('Cuaderno: las 28 letras', 'Escribe las letras de hoy 5 veces cada una. Luego tapa la guía y escribe el alfabeto completo de memoria, diciendo el sonido de cada letra. Revisa con la guía y repite las que olvidaste.'); o.g = TODAS; return o; }
+      return T('Cuaderno: escribe ' + cortas(g), 'Escribe cada letra 5 veces, de derecha a izquierda, diciendo en voz alta su nombre y su sonido. Después tapa la guía y di el sonido de todas las letras que llevas.');
+    }
+    if (n <= NL + NR) { var r = AR_LEER[n - NL - 1]; return T('Cuaderno: lee y escribe', r[2]); }
+    return T('Cuaderno: palabras de la lección', 'Escribe a mano las palabras nuevas de la lección de LingoDeer de hoy y léelas en voz alta 3 veces.');
+  }
   var AR_CONV = [
-    ['Primera charla: saludos', 'Pídele a Claude por voz: “Enséñame 5 saludos en árabe egipcio y practícalos conmigo”.'],
-    ['Perfil en Tandem', 'Crea tu perfil gratis con árabe egipcio y alemán como idiomas a aprender. Escribe a 3 personas de Egipto que aprendan español.', LINKS.tandem],
-    ['Presentarte', 'Con Claude por voz o en Tandem: tu nombre, de dónde eres y a qué te dedicas. Pasa 5 frases a Anki.'],
-    ['Números y preguntas básicas', 'Números del 1 al 10, “¿cómo estás?” y “¿de dónde eres?”.'],
+    ['Saludos', 'Modo de voz de Claude: «Practica conmigo saludos en árabe egipcio. Habla lento y dime cómo se escribe cada frase».'],
+    ['Presentarte', 'Con Claude por voz: tu nombre, de dónde eres y a qué te dedicas. Pasa 3 frases a Anki.'],
+    ['Números y preguntas', 'Números del 1 al 10, «¿cómo estás?» y «¿de dónde eres?».'],
     ['Tu familia', 'Describe a tu familia con frases simples: cuántos son y cómo se llaman.'],
     ['Pedir comida', 'Simula un pedido en un restaurante: pedir, preguntar el precio, pagar.'],
-    ['Tu trabajo', 'Explica en qué trabajas y dónde. Pide las palabras que te falten y pásalas a Anki.'],
-    ['De compras', 'Pregunta precios, regatea un poco y usa números grandes.'],
-    ['Tu día', 'Cuenta tu rutina de un día normal, de la mañana a la noche.'],
-    ['Direcciones', 'Pregunta cómo llegar a un lugar y entiende la respuesta.'],
-    ['Gustos', 'Qué te gusta y qué no: comida, música, deporte.'],
-    ['El fin de semana', 'Cuenta qué hiciste el fin de semana usando el pasado.'],
-    ['Planes', 'Cuenta qué vas a hacer la próxima semana.'],
-    ['Un viaje', 'Cuenta un viaje que hiciste: dónde, con quién y qué te gustó.']
+    ['Tu trabajo', 'Explica en qué trabajas. Pide las palabras que te falten y pásalas a Anki.'],
+    ['De compras', 'Pregunta precios y usa números grandes.'],
+    ['Tu día', 'Cuenta tu rutina de un día normal.']
   ];
 
   // ---------- Alemán ----------
+  var DE_FRASES = [
+    ['«Ich heiße…», «Ich komme aus…»', 'Ich heiße Axel (me llamo Axel). Ich komme aus Chile (soy de Chile). Ich wohne in Santiago (vivo en Santiago). «ch» en «ich» suena como una «j» muy suave; «ei» suena «ai»; «w» suena «v».'],
+    ['«Ich bin…» y «du bist…»', 'Ich bin müde (estoy cansado). Ich bin Vater (soy papá). Du bist nett (eres simpático). Cambia la última palabra por otras que sepas.'],
+    ['«Ich habe…»', 'Ich habe einen Sohn (tengo un hijo). Ich habe eine Tochter (tengo una hija). Ich habe ein Auto (tengo un auto). einen = masculino, eine = femenino, ein = neutro.'],
+    ['«Ich mag…» / «Ich mag … nicht»', 'Ich mag Kaffee (me gusta el café). Ich mag Musik. Ich mag Regen nicht (no me gusta la lluvia). nicht va al final.'],
+    ['«Ich trinke…», «Ich esse…»', 'Ich trinke Wasser (tomo agua). Ich esse Brot (como pan). Ich trinke keinen Kaffee (no tomo café).'],
+    ['Repaso de la semana', 'Di sin mirar una frase de cada tipo: Ich heiße…, Ich bin…, Ich habe…, Ich mag…, Ich trinke…'],
+    ['«Das ist…»', 'Das ist mein Haus (esta es mi casa). Das ist mein Sohn (este es mi hijo). Das ist nicht gut (eso no está bien).'],
+    ['«Ich möchte…, bitte»', 'Ich möchte einen Kaffee, bitte (quisiera un café, por favor). Ich möchte Wasser, bitte. Danke! (¡gracias!).'],
+    ['Preguntas básicas', 'Wie heißt du? (¿cómo te llamas?). Woher kommst du? (¿de dónde eres?). Wo wohnst du? (¿dónde vives?). Pregunta y respóndete tú mismo.'],
+    ['Números y tu edad', 'eins, zwei, drei, vier, fünf, sechs, sieben, acht, neun, zehn. Luego: Ich bin … Jahre alt (tengo … años).'],
+    ['Días de la semana', 'Montag, Dienstag, Mittwoch, Donnerstag, Freitag, Samstag, Sonntag. Heute ist Freitag (hoy es viernes). Morgen ist Samstag (mañana es sábado).'],
+    ['Preséntate en 1 minuto', 'Junta todo: Hallo! Ich heiße Axel. Ich komme aus Chile. Ich wohne in Santiago. Ich bin … Jahre alt. Ich habe… Ich mag… Grábalo con el celular.'],
+    ['«Ich kann…» / «Ich muss…»', 'Ich kann schwimmen (sé nadar). Ich muss arbeiten (tengo que trabajar). El segundo verbo va al final.'],
+    ['«Ich gehe…» / «Ich fahre…»', 'Ich gehe nach Hause (voy a casa). Ich fahre mit dem Auto (voy en auto). Ich gehe ins Kino (voy al cine).'],
+    ['La hora', 'Wie spät ist es? (¿qué hora es?) Es ist acht Uhr (son las ocho). Ich stehe um sieben Uhr auf (me levanto a las siete).'],
+    ['Tu familia', 'Meine Frau heißt… Mein Sohn ist … Jahre alt. Meine Tochter mag… Describe a 3 personas.'],
+    ['En la cafetería', 'Ich hätte gern… (me gustaría…). Was kostet das? (¿cuánto cuesta?). Die Rechnung, bitte (la cuenta, por favor).'],
+    ['Repaso: tu rutina', 'Cuenta tu día con 5 frases: Ich stehe um … auf. Ich trinke… Ich arbeite… Ich esse… Ich schlafe um…']
+  ];
   var DE_CONV = [
-    ['Primera charla: presentarte', 'Con Claude por voz: “Ich heiße…, ich komme aus…, ich bin…”. Pídele que hable lento y te corrija al final. Busca también personas de habla alemana que aprendan español.', LINKS.tandem],
-    ['Números, días y la hora', 'Con Claude por voz o tu compañero de Tandem.'],
+    ['Preséntate', 'Modo de voz de Claude: «Habla conmigo en alemán A1, lento, y corrígeme al final». Preséntate y responde sus preguntas.'],
     ['Tu familia', 'Meine Familie: quiénes son, cuántos años tienen, dónde viven.'],
     ['En la cafetería', 'Pide, pregunta el precio y paga: Ich möchte…, Was kostet…?'],
     ['Tu trabajo', 'Was machst du beruflich? Explica en qué trabajas.'],
@@ -62,22 +125,7 @@
     ['El fin de semana', 'Cuenta tu fin de semana en Perfekt (habe gemacht, bin gegangen).'],
     ['Direcciones', 'Wo ist…? Wie komme ich zu…?'],
     ['Planes', 'Qué harás el próximo fin de semana.'],
-    ['Un viaje', 'Cuenta un viaje en Perfekt.'],
     ['Opiniones', 'Ich finde…, weil… — da tu opinión sobre un tema simple.']
-  ];
-  var DE_SAB = [
-    ['Pronunciación alemana', 'LingoDeer Alemán, unidad de pronunciación: ä, ö, ü, ch, ei/ie, la z y la w. Repite cada sonido en voz alta.'],
-    ['Repaso: der, die, das', 'Repasa los artículos y los verbos sein y haben; escribe 5 frases sobre ti.'],
-    ['Repaso: verbos en presente', 'Conjuga 5 verbos regulares y 3 irregulares (haben, sein, fahren). Escribe una frase con cada uno.'],
-    ['Repaso: preguntas con W', 'Wer, was, wo, wann, wie, warum: escribe una pregunta con cada una y respóndela.'],
-    ['Repaso: acusativo', 'den, einen, keinen: escribe 8 frases con objeto directo.'],
-    ['Repaso: verbos modales', 'können, müssen, wollen, möchten: 8 frases, el infinitivo al final.'],
-    ['Repaso: verbos separables', 'aufstehen, anrufen, einkaufen: 8 frases sobre tu día.'],
-    ['Repaso: dativo', 'mit, bei, von, zu + dativo: 8 frases.'],
-    ['Repaso: Perfekt con haben', 'Escribe 8 cosas que hiciste esta semana.'],
-    ['Repaso: Perfekt con sein', 'Verbos de movimiento: gehen, fahren, kommen. 8 frases.'],
-    ['Repaso: weil y dass', 'El verbo va al final: 8 frases con weil o dass.'],
-    ['Repaso: Präteritum común', 'war, hatte, konnte, musste: 8 frases.']
   ];
 
   // ---------- Inglés ----------
@@ -113,37 +161,26 @@
   function T(t, d, link) { return { t: t, d: d, link: link || null }; }
 
   // Content for stream `s` at position `n` (1-based)
+  var ANKI_COMO = 'Una tarjeta nueva es la primera vez que la ves: es normal no saberla. Presiona Show Answer, lee y escucha, y marca Again si no la sabías.';
   var STREAMS = {
-    anki: { track: 'anki', carry: false, daily: true, f: function (n) {
-      return n === 1 ? T('Abre Anki y repasa', 'Todas las pendientes. Las nuevas ya vienen limitadas a 15 por día.', LINKS.anki)
-        : T('Repaso de Anki', 'Todas las tarjetas pendientes, más las nuevas del día.'); } },
-    arLec: { track: 'arLec', carry: true, f: function (n) {
-      if (n <= AR_ALF.length) { var a = AR_ALF[n - 1]; return T(a[0], a[1]); }
-      var k = n - AR_ALF.length;
-      if (k % 6 === 0) return T('Repaso de la semana', 'Rehaz en LingoDeer las últimas lecciones y escribe 10 frases de memoria.');
-      var tema = AR_TEMAS[Math.min(Math.floor((k - 1) * AR_TEMAS.length / 140), AR_TEMAS.length - 1)];
-      return T('LingoDeer Árabe: siguiente lección', 'Tema del plan para estas semanas: ' + tema + '. Escribe a mano las palabras nuevas.'); } },
-    arLT: { track: 'arOido', carry: true, f: function (n) {
-      if (n <= 19) return T('Language Transfer árabe: pistas ' + (2 * n - 1) + ' y ' + (2 * n), 'Pausa cuando el profesor pregunta y responde en voz alta antes que el alumno.', LINKS.lt);
-      return T('Árabe egipcio: video con subtítulos', 'Un video corto en dialecto egipcio. Repite en voz alta 3 frases y pásalas a Anki.'); } },
-    arConv: { track: 'arConv', carry: false, f: function (n) {
-      if (n <= AR_CONV.length) { var c = AR_CONV[n - 1]; return T('Conversación: ' + c[0].replace(/^Primera charla: /, ''), c[1], c[2]); }
-      return T('Conversación libre en árabe', 'Intercambio en Tandem o Claude por voz. Usa las frases nuevas de la semana.', LINKS.tandem); } },
-    arRep: { track: 'arLec', carry: false, daily: true, f: function (n) {
-      return n <= 2 ? T(n === 1 ? 'Repaso semanal del alfabeto' : 'Repaso de las 28 letras', n === 1 ? 'Rehaz en LingoDeer las letras de la semana y escríbelas de memoria.' : 'Escribe el alfabeto completo de memoria y lee en voz alta tus tarjetas.')
-        : T('Repaso semanal de árabe', 'Rehaz en LingoDeer las lecciones de la semana y lee en voz alta tus frases de Anki.'); } },
-    arRS: { track: 'arOido', carry: false, f: function (n) {
-      return T('Rosetta Stone Árabe (PC): siguiente lección', 'Inmersión con imágenes en árabe estándar. Escucha y repite en voz alta.'); } },
-    deDuo: { track: 'deLec', carry: false, daily: true, f: function (n) {
-      return T('Duolingo alemán: 2 lecciones', n === 1 ? 'Sigue tu curso desde el español donde vas. Pasa 3 frases a Anki.' : 'Sigue tu curso desde el español. Lee en voz alta cada frase nueva y pasa 3 a Anki.'); } },
-    deNW: { track: 'deOido', carry: true, f: function (n) {
-      return T('Nicos Weg: siguiente episodio (' + n + '.º del plan)', 'Curso en video gratis de DW: empieza en A1 y pasa a A2 al terminarlo. Repite en voz alta 3 frases.', LINKS.dw); } },
+    arLec: { track: 'arLec', carry: true, f: arLec },
+    arEsc: { track: 'arEsc', carry: true, f: arEsc },
+    anki: { track: 'anki', carry: false, daily: true, f: function () {
+      return T('Anki, después del árabe', 'Hazlo después de la lección de árabe: las tarjetas nuevas de árabe son lo que acabas de aprender. Si hoy no hiciste la lección de árabe, estudia solo los mazos «Alemán» e «Inglés». ' + ANKI_COMO, LINKS.anki); } },
+    deDuo: { track: 'deDuo', carry: false, daily: true, f: function () {
+      return T('Duolingo: 2 lecciones nuevas', 'Abre Duolingo → Alemán y avanza 2 lecciones en tu camino. Lee cada frase en voz alta antes de responder. Si fallas mucho en una, repítela antes de seguir.'); } },
+    deDuoSab: { track: 'deDuo', carry: false, daily: true, f: function () {
+      return T('Duolingo: repasa 2 lecciones', 'Abre Duolingo → Alemán y repite 2 lecciones que ya hiciste esta semana. Lee cada frase en voz alta antes de responder.'); } },
+    deLD: { track: 'deLD', carry: true, f: function (n) {
+      if (n % 6 === 0) return T('LingoDeer: repaso de la semana', 'LingoDeer → Alemán → abre las lecciones de esta semana y haz su repaso. Fíjate en el artículo (der, die, das) de cada palabra.');
+      return T('LingoDeer: la siguiente lección', 'LingoDeer → Alemán → la siguiente lección de tu curso. Antes de los ejercicios lee las notas de gramática de la lección (Learning Tips): ahí está el «por qué» que Duolingo no explica.'); } },
+    deHab: { track: 'deHab', carry: true, f: function (n) {
+      var x = DE_FRASES[(n - 1) % DE_FRASES.length];
+      return T('Dilo en voz alta: ' + x[0], x[1] + ' Léelas 3 veces en voz alta, luego dilas sin mirar y cambia una palabra para crear 1 frase tuya. Escríbela en la nota del día.'); } },
     deConv: { track: 'deConv', carry: false, f: function (n) {
-      if (n <= DE_CONV.length) { var c = DE_CONV[n - 1]; return T('Conversación: ' + c[0].replace(/^Primera charla: /, ''), c[1], c[2]); }
-      return T('Conversación libre en alemán', 'Intercambio en Tandem o Claude por voz, 25 minutos.', LINKS.tandem); } },
-    deSab: { track: 'deLec', carry: false, f: function (n) { var s = at(DE_SAB, n); return T(s[0], s[1]); } },
-    deSerie: { track: 'deOido', carry: false, daily: true, f: function () {
-      return T('Video en alemán', 'Easy German o un episodio extra de Nicos Weg, con subtítulos en alemán.'); } },
+      var c = at(DE_CONV, n); return T('Habla con Claude: ' + c[0], c[1] + ' 15 minutos. Pídele al final tus 3 errores y anótalos en la nota del día.'); } },
+    arConv: { track: 'arConv', carry: false, f: function (n) {
+      var c = at(AR_CONV, n); return T('Habla con Claude: ' + c[0], c[1]); } },
     enL: { track: 'en', carry: false, f: function () {
       return T('Escucha nativa + shadowing', '15 min de un podcast o charla nativa sin adaptar (BBC Radio 4, TED). Luego 5 min repitiendo un fragmento con su ritmo y entonación. Anota 5 expresiones.'); } },
     enW: { track: 'en', carry: false, f: function (n) {
@@ -157,24 +194,27 @@
     enSab: { track: 'en', carry: false, f: function (n) {
       if (n === 1) return T('Mide tu nivel: EF SET', 'Test gratis de unos 50 minutos con resultado en escala A1–C2. Anota el resultado en la nota del día.', LINKS.efset);
       if (n % 12 === 0) return T('Mide tu avance: EF SET', 'Repite el test y compáralo con tu resultado anterior.', LINKS.efset);
-      return T('Película o documental sin subtítulos', '40 min. Anota 5 expresiones que tú no usarías y pásalas a Anki.'); } },
+      return T('Película o documental sin subtítulos', '40 min. Anota 5 expresiones que tú no usarías y anótalas en la nota del día.'); } },
     frLec: { track: 'frLec', carry: true, f: function (n) {
       return T('Francés: Duolingo o LingoDeer', 'Siguiente lección. Tema del plan: ' + FR_TEMAS[Math.min(Math.floor((n - 1) / 6), FR_TEMAS.length - 1)] + '. Cuidado con los falsos amigos del español.'); } },
     frLT: { track: 'frOido', carry: true, f: function (n) {
       return T('Francés en audio: Language Transfer o Easy French', 'Siguiente pista de Language Transfer francés, o un video de Easy French con subtítulos.', LINKS.lt); } },
-    rev: { track: 'rev', carry: false, daily: true, f: function () {
-      return T('Revisión semanal', 'Mira tu resumen semanal en la app: qué completaste y qué quedó pendiente. Repasa los errores de la semana.'); } },
-    grab: { track: 'rev', carry: false, daily: true, f: function () {
-      return T('Grábate 3 minutos', 'Primer día del mes: graba 3 minutos hablando en inglés y lo que puedas en alemán y árabe. Compáralo con la grabación del mes anterior.'); } }
+    rev: { track: 'rev', carry: false, daily: true, f: function (n) {
+      if (n === 1) return T('Prepara tu semana', 'Abre Ajustes → Puesta a punto y revisa que Anki esté listo. Mira la pestaña Plan: cada día haces los bloques en el orden de la lista, con la lección de árabe siempre antes que Anki.');
+      return T('Revisión semanal', '1) Mira en Resumen qué quedó pendiente: hazlo hoy o déjalo para la semana. 2) Lee tus notas de la semana. 3) Repasa tu cuaderno de árabe 5 minutos.'); } },
+    grab: { track: 'rev', carry: false, daily: true, f: function (n) {
+      if (n === 1) return T('Grábate 2 minutos (punto de partida)', 'Con la grabadora del celular: 1 min y medio en inglés contando qué hiciste esta semana, y 30 segundos en alemán diciendo «Hallo, ich heiße Axel» más las palabras que sepas. En árabe todavía no. Guarda el audio con la fecha para comparar el próximo mes.');
+      return T('Grábate 3 minutos', 'Primer día del mes: 1 min en inglés, 1 min en alemán presentándote y contando tu día, y en árabe lee en voz alta 5 palabras o saludos que sepas. Compáralo con la grabación del mes anterior.'); } }
   };
 
   var TRACKS = [
-    { k: 'anki', label: 'Anki', lang: 'gen' },
-    { k: 'arLec', label: 'Árabe · lección', lang: 'ar' },
-    { k: 'arOido', label: 'Árabe · oído', lang: 'ar' },
+    { k: 'arLec', label: 'Árabe · LingoDeer', lang: 'ar' },
+    { k: 'arEsc', label: 'Árabe · cuaderno', lang: 'ar' },
     { k: 'arConv', label: 'Árabe · conversación', lang: 'ar' },
-    { k: 'deLec', label: 'Alemán · lección', lang: 'de' },
-    { k: 'deOido', label: 'Alemán · oído', lang: 'de' },
+    { k: 'anki', label: 'Anki', lang: 'gen' },
+    { k: 'deDuo', label: 'Alemán · Duolingo', lang: 'de' },
+    { k: 'deLD', label: 'Alemán · LingoDeer', lang: 'de' },
+    { k: 'deHab', label: 'Alemán · en voz alta', lang: 'de' },
     { k: 'deConv', label: 'Alemán · conversación', lang: 'de' },
     { k: 'en', label: 'Inglés · C1 a C2', lang: 'en' },
     { k: 'frLec', label: 'Francés · lección', lang: 'fr' },
@@ -190,25 +230,22 @@
   function diffDays(a, b) { return Math.round((parseISO(b) - parseISO(a)) / 864e5); }
   function weekday(s) { return parseISO(s).getDay(); }
 
-  // Slots for a date: [stream, minutes]
+  // Slots for a date: [stream, minutes], in the order you do them
   function slotsFor(dateISO, startISO) {
     var w = weekday(dateISO), week = Math.floor(Math.max(0, diffDays(startISO, dateISO)) / 7) + 1;
     var french = week >= 35; // mes 9
-    var s = [];
+    var s = [['arLec', 15], ['arEsc', 10], ['anki', 10]];
+    if (w === 4 && week >= 9) s.push(['arConv', 15]);        // conversación en árabe desde el mes 3
     if (w >= 1 && w <= 5) {
-      s.push(['anki', 10], ['arLec', 20]);
-      s.push((w === 2 || w === 4) ? ['arConv', 15] : ['arLT', 15]);
-      if (w === 3) s.push(['deConv', french ? 15 : 25]);
-      else if (french) s.push(['deDuo', 5], ['deNW', 10]);
-      else s.push(['deDuo', 10], ['deNW', 15]);
-      var en = ['enL', 'enW', 'enR', 'enS', 'enE'][w - 1];
-      s.push([en, french ? 10 : 20]);
+      s.push(['deDuo', french ? 5 : 10], ['deLD', french ? 10 : 15]);
+      s.push(w === 3 && week >= 5 ? ['deConv', 15] : ['deHab', 5]); // conversación en alemán desde el mes 2
+      s.push([['enL', 'enW', 'enR', 'enS', 'enE'][w - 1], french ? 10 : 20]);
       if (french) s.push(['frLec', 10], ['frLT', 10]);
     } else if (w === 6) {
-      s.push(['anki', 10], ['arRep', 20], ['arRS', 20], ['deSab', 20], ['deSerie', 20], ['enSab', 40]);
+      s.push(['deDuoSab', 10], ['deLD', 15], ['deHab', 5], ['enSab', 40]);
       if (french) s.push(['frLT', 20]);
     } else {
-      s.push(['anki', 10], ['rev', 20]);
+      s.push(['rev', 10]);
     }
     if (parseISO(dateISO).getDate() === 1) s.push(['grab', 5]);
     return s;

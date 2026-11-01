@@ -209,3 +209,11 @@ label.field{display:flex;flex-direction:column;gap:6px;font-size:13px;color:var(
 .hdone{font-size:13.5px;color:var(--muted)}
 .status .reset{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;justify-content:space-between;margin-top:8px;padding-top:10px;border-top:1px solid color-mix(in srgb,var(--late) 30%,transparent)}
 .status .reset span{flex:1 1 220px;font-size:13.5px;color:var(--muted)}
+
+/* Guía de letras árabes */
+.lg{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:8px;margin-top:8px}
+.lc{border:1px solid var(--line);border-radius:8px;padding:8px 10px;display:flex;gap:12px;align-items:center;background:var(--bg)}
+.lc b{font-family:var(--arabic);font-size:32px;line-height:1.2;min-width:34px;text-align:center;color:var(--ar);font-weight:600}
+.lc span{font-size:13px;color:var(--muted);line-height:1.35}
+.lc strong{color:var(--ink);display:block;font-weight:600}
+.td .ara{font-family:var(--arabic);font-size:1.2em;color:var(--ink);unicode-bidi:isolate}
