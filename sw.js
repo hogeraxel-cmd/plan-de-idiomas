@@ -1,5 +1,5 @@
 // Guarda la app en el dispositivo para abrirla sin conexión.
-var VERSION = 'pdi-v6';
+var VERSION = 'pdi-v7';
 var SHELL = ['./', 'index.html', 'styles.css', 'app.js', 'curriculum.js', 'config.js',
   'firebase-app-compat.js', 'firebase-auth-compat.js', 'firebase-firestore-compat.js',
   'manifest.webmanifest', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png'];
