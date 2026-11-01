@@ -15,11 +15,11 @@
   var LETRAS = [
     [['ا', 'alif', 'una «a» larga; también sirve de soporte para otras vocales'], ['ب', 'ba', 'b'], ['ت', 'ta', 't'], ['ث', 'za', 'como la «z» de España o la «th» de «think»']],
     [['ج', 'yim', '«y» fuerte (en Egipto suena como la «g» de «gato»)'], ['ح', 'ja', 'una «h» echando aire fuerte desde la garganta, sin raspar'], ['خ', 'jaa', 'la «j» española de «jamón», raspando'], ['د', 'dal', 'd']],
-    [['ذ', 'zal', 'como la «th» de «this» (lengua entre los dientes)'], ['ر', 'ra', 'r de «pero»'], ['ز', 'zay', 'una «z» que zumba, como una abeja: zzz'], ['س', 'sin', 's']],
-    [['ش', 'shin', '«sh» de «show»'], ['ص', 'sad', 'una «s» gruesa: lengua abajo, sonido más oscuro'], ['ض', 'dad', 'una «d» gruesa'], ['ط', 'ta gruesa', 'una «t» gruesa']],
-    [['ظ', 'za gruesa', 'una «z» de «this» gruesa'], ['ع', 'ain', 'apretando la garganta, como al levantar algo pesado; no existe en español'], ['غ', 'gain', 'una «g» gargareada, como la «r» francesa'], ['ف', 'fa', 'f']],
-    [['ق', 'qaf', 'una «k» desde el fondo de la garganta (en Egipto, un corte de voz)'], ['ك', 'kaf', 'k'], ['ل', 'lam', 'l'], ['م', 'mim', 'm']],
-    [['ن', 'nun', 'n'], ['ه', 'ha', 'una «h» suave, como en «hello»'], ['و', 'uau', '«w», o una «u» larga'], ['ي', 'ya', '«y», o una «i» larga']]
+    [['ذ', 'zal', 'como la «th» de «this» (lengua entre los dientes)'], ['ر', 'ra', 'r de «pero»'], ['ز', 'zay', 'una «z» que zumba, como una abeja: zzz'], ['و', 'uau', '«w», o una «u» larga']],
+    [['س', 'sin', 's'], ['ش', 'shin', '«sh» de «show»'], ['ص', 'sad', 'una «s» gruesa: lengua abajo, sonido más oscuro'], ['ض', 'dad', 'una «d» gruesa']],
+    [['ط', 'ta gruesa', 'una «t» gruesa'], ['ظ', 'za gruesa', 'una «z» de «this» gruesa'], ['ع', 'ain', 'apretando la garganta, como al levantar algo pesado; no existe en español'], ['غ', 'gain', 'una «g» gargareada, como la «r» francesa']],
+    [['ف', 'fa', 'f'], ['ق', 'qaf', 'una «k» desde el fondo de la garganta (en Egipto, un corte de voz)'], ['ك', 'kaf', 'k'], ['ل', 'lam', 'l']],
+    [['م', 'mim', 'm'], ['ن', 'nun', 'n'], ['ه', 'ha', 'una «h» suave, como en «hello»'], ['ي', 'ya', '«y», o una «i» larga']]
   ];
   var TODAS = [].concat.apply([], LETRAS);
   function cortas(g) { return '[' + g.map(function (l) { return l[0]; }).join(' ') + ']'; }
@@ -65,7 +65,7 @@
     }
     if (n <= NL + NR) {
       var r = AR_LEER[n - NL - 1];
-      var pre2 = n === NL + 1 ? 'Primero, en Anki: mazo «Árabe» → Opciones → Nuevas tarjetas/día → 0. Ya viste las 28 letras y así no aparecen frases que aún no estudias; las letras se siguen repasando solas. ' : '';
+      var pre2 = n === NL + 1 ? 'Primero, en Anki: mazo «Árabe» → Opciones → Nuevas tarjetas/día → 1. Ya viste las 28 letras: esta semana Anki te muestra un signo nuevo por día (vocales, sukun, shadda…), justo lo que ves en estas lecciones. Las letras se siguen repasando solas. ' : '';
       return T(r[0], pre2 + r[1]);
     }
     var k = n - NL - NR;
